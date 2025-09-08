@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>JavaScript Fundamentals - Mini Project</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        transition: background 0.8s; /* smooth color change */
+      }
+      .card {
+        border: 1px solid #ddd;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 6px;
+        background: #f9f9f9;
+      }
+      .hidden {
+        display: none;
+      }
+      ul {
+        padding-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Interactive Greeting Page</h1>
+
+    <div class="card">
+      <label>
+        Your name:
+        <input id="name" placeholder="Enter your name" />
+      </label>
+      <br /><br />
+      <label>
+        How many numbers? 
+        <input id="count" type="number" value="5" min="1" />
+      </label>
+      <br /><br />
+      <button id="greetBtn">Greet me</button>
+      <button id="toggleBtn">Toggle Info</button>
+    </div>
+
+    <div id="message" class="card hidden"></div>
+
+    <div id="numbers" class="card hidden">
+      <h3>Numbers:</h3>
+      <ul id="numList"></ul>
+    </div>
+
+    <!-- JavaScript inside same file -->
+    <script>
+      // Function to generate a random color
+      function randomColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
+      }
+
+      // Get page elements
+      const nameInput = document.getElementById("name");
+      const countInput = document.getElementById("count");
+      const greetBtn = document.getElementById("greetBtn");
+      const toggleBtn = document.getElementById("toggleBtn");
+      const messageDiv = document.getElementById("message");
+      const numbersDiv = document.getElementById("numbers");
+      const numList = document.getElementById("numList");
+
+      // Greet button action
+      greetBtn.addEventListener("click", () => {
+        const name = nameInput.value.trim() || "Friend";
+        const count = parseInt(countInput.value) || 5;
+
+        // Check condition
+        if (count <= 0) {
+          alert("Please enter a positive number");
+          return;
+        }
+
+        // Change background into gradient with two random colors
+        const color1 = randomColor();
+        const color2 = randomColor();
+        document.body.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+
+        // Show greeting
+        messageDiv.classList.remove("hidden");
+        messageDiv.textContent = `Hello, ${name}! Here are ${count} numbers:`;
+
+        // Generate numbers
+        numList.innerHTML = "";
+        for (let i = 1; i <= count; i++) {
+          const li = document.createElement("li");
+          li.textContent = i;
+          numList.appendChild(li);
+        }
+        numbersDiv.classList.remove("hidden");
+      });
+
+      // Toggle button action
+      toggleBtn.addEventListener("click", () => {
+        messageDiv.classList.toggle("hidden");
+        numbersDiv.classList.toggle("hidden");
+      });
+    </script>
+  </body>
+</html>
+
